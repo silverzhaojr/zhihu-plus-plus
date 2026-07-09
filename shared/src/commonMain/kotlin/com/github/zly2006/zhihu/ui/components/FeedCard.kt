@@ -126,6 +126,8 @@ fun FeedCard(
     val uriHandler = LocalUriHandler.current
     val userMessages = rememberUserMessageSink()
     val settings = rememberSettingsStore()
+    val fontSizePercent = remember { settings.getInt(PREF_FONT_SIZE, 100) }
+    val scaledMaxHeight = maxHeight * fontSizePercent / 100
     val isLiteVariant = rememberIsLiteVariant()
     var offsetX by remember { mutableFloatStateOf(0f) }
     var currentY by remember { mutableFloatStateOf(0f) } // 当前手指Y位置
@@ -188,7 +190,7 @@ fun FeedCard(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .heightIn(max = maxHeight),
+                .heightIn(max = scaledMaxHeight),
         ) {
             Column(
                 modifier = Modifier
@@ -216,7 +218,7 @@ fun FeedCard(
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .heightIn(max = maxHeight)
+                .heightIn(max = scaledMaxHeight)
                 .padding(horizontal = horizontalPadding, vertical = 8.dp),
         ) {
             Card(
