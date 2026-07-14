@@ -383,43 +383,45 @@ fun PinScreen(
                             }
                         },
                     )
-
-                    if (showComments) {
-                        CommentScreenComponent(
-                            showComments = showComments,
-                            onDismiss = { showComments = false },
-                            content = pin,
-                        )
-                    }
-
-                    val shareText = getShareText(pin)
-                    if (shareText != null) {
-                        ShareDialog(
-                            content = pin,
-                            shareText = shareText,
-                            showDialog = showShareDialog,
-                            onDismissRequest = { showShareDialog = false },
-                        )
-                    }
-
-                    VotersSheet(
-                        show = showVoters,
-                        title = "${formatCompactCount(likeCount)} 人赞同了该想法",
-                        voters = voters,
-                        isLoading = votersLoading,
-                        errorMessage = votersError,
-                        canLoadMore = votersNextUrl != null,
-                        onDismissRequest = { showVoters = false },
-                        onLoadMore = { loadMoreVoters() },
-                        onRetry = { loadMoreVoters(reset = voters.isEmpty()) },
-                        onNavigate = { person ->
-                            showVoters = false
-                            navigator.onNavigate(person)
-                        },
-                    )
                 }
             }
         }
+    }
+
+    if (showComments) {
+        CommentScreenComponent(
+            showComments = showComments,
+            onDismiss = { showComments = false },
+            content = pin,
+        )
+    }
+
+    if (pinContent != null) {
+        val shareText = getShareText(pin)
+        if (shareText != null) {
+            ShareDialog(
+                content = pin,
+                shareText = shareText,
+                showDialog = showShareDialog,
+                onDismissRequest = { showShareDialog = false },
+            )
+        }
+
+        VotersSheet(
+            show = showVoters,
+            title = "${formatCompactCount(likeCount)} 人赞同了该想法",
+            voters = voters,
+            isLoading = votersLoading,
+            errorMessage = votersError,
+            canLoadMore = votersNextUrl != null,
+            onDismissRequest = { showVoters = false },
+            onLoadMore = { loadMoreVoters() },
+            onRetry = { loadMoreVoters(reset = voters.isEmpty()) },
+            onNavigate = { person ->
+                showVoters = false
+                navigator.onNavigate(person)
+            },
+        )
     }
 }
 
